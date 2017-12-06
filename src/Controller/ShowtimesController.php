@@ -44,8 +44,6 @@ class ShowtimesController extends AppController
         ]);
         
         $this->set('showtime', $showtime);
-        $this->set('movies', $movie);
-        $this->set('rooms', $rooms);
         $this->set('_serialize', ['showtime']);
     }
 

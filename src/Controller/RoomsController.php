@@ -20,9 +20,11 @@ class RoomsController extends AppController
     public function index()
     {
         $rooms = $this->paginate($this->Rooms);
+        
+        $this->set('rooms', $this->paginate($this->Rooms));  
 
-        $this->set(compact('rooms'));
-        $this->set('_serialize', ['rooms']);
+/*        $this->set(compact('rooms'));
+        $this->set('_serialize', ['rooms']);*/
     }
 
     /**
@@ -40,6 +42,10 @@ class RoomsController extends AppController
 
         $this->set('room', $room);
         $this->set('_serialize', ['room']);
+        
+        $showtimes = $this->Rooms->Showtimes->find()->where(['room_id' => $id, 'start >' => 'FAIRE UNE VARIABLE POUR RECUP LA DATE ACTUELLE'])->contain(['Rooms','Movies']);
+        
+        $this->set('showtimes', $showtimes);
     }
 
     /**
