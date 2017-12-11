@@ -38,15 +38,42 @@
             <th scope="row"><?= __('Modified') ?></th>
             <td><?= h($room->modified) ?></td>
         </tr>
+        <tr>
+            <th scope="row">Planning: </th>
+        </tr>
     </table>
     
-    <?php foreach ($showtimes as $showtime) {?>
-    <tr>
-        <td><?= $showtime->movie->name ; ?></br></td>
-        <td><?= $showtime->start ; ?></br></td>
-        <td><?= $showtime->end ; ?></br></td>
-    </tr>
+    <table>
 
-    <?php } ?>
+    <tr>
+            <th scope="col">L</th>
+            <th scope="col">M</th>
+            <th scope="col">M</th>
+            <th scope="col">J</th>
+            <th scope="col">V</th>
+            <th scope="col">S</th>
+            <th scope="col">D</th>        
+    </tr>
+    
+    <table>
+    <div id="contentBox" style="margin:0px auto; width:70%">
+        <?php for($i=0;$i<7;$i++): ?>
+            <table style="float:left; margin:0; width:14.2%;">
+                <?php 
+                    if(isset($calendrier[$i])):
+                        foreach($calendrier[$i] as $films): ?>
+                        <tr>
+                            <td>
+                                <?= $films->movie->name ; ?>
+                                <?= $films->start ; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach;
+                    else:
+                        echo "<tr><td> Rien </td></tr>";
+                endif;?>
+            </table>
+        <?php endfor;  ?>      
+    </div>
 
 </div>

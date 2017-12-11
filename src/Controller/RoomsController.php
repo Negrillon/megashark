@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 /**
  * Rooms Controller
@@ -39,13 +40,26 @@ class RoomsController extends AppController
         $room = $this->Rooms->get($id, [
             'contain' => []
         ]);
-
+        
+        
+        $dateDebut =new Time('Monday this week');
+        $dateFin = new Time('Sunday this week');
+           
+        
+        $showtimes = $this->Rooms->Showtimes->find()->where(['room_id =' => $id, 'start >=' => $dateDebut, 'end <=' => $dateFin])->contain(['Rooms','Movies']);
+        
+        $calendrier =  array();
+        foreach ($showtimes as $showtime){
+            if($showtime->start->format('N') == 0)
+                $calendrier[6][] = $showtime;
+            else
+                $calendrier[$showtime->start->format('N')-1][] = $showtime;
+        }
+        
+        $this->set('calendrier', $calendrier);
+        $this->set('showtimes', $showtimes);
         $this->set('room', $room);
         $this->set('_serialize', ['room']);
-        
-        $showtimes = $this->Rooms->Showtimes->find()->where(['room_id' => $id, 'start >' => 'FAIRE UNE VARIABLE POUR RECUP LA DATE ACTUELLE'])->contain(['Rooms','Movies']);
-        
-        $this->set('showtimes', $showtimes);
     }
 
     /**
